@@ -28,7 +28,7 @@ class ThemeUnzipCommand extends Command
 
         $themeJsonPath = "{$tmpDirPath}/theme.json";
         if (! file_exists($tmpDirPath)) {
-            \info('Theme file does not exist: '.$themeJsonPath);
+            \info($message = 'Theme file does not exist: '.$themeJsonPath);
             $this->error('install theme error '.$message);
 
             return 0;
