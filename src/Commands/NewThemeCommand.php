@@ -143,10 +143,6 @@ class NewThemeCommand extends Command
             return;
         }
 
-        $themePath = $this->theme->getThemePath();
-
-        $this->filesystem->deleteDirectory("$themePath/app");
-
         $composerJsonPath = $this->theme->getComposerJsonPath();
 
         $composer = Json::make($composerJsonPath)->get();
@@ -154,6 +150,13 @@ class NewThemeCommand extends Command
         Arr::set($composer, 'extra.laravel.providers', []);
 
         $this->filesystem->put($composerJsonPath, Json::make()->encode($composer));
+
+        $themePath = $this->theme->getThemePath();
+
+        $this->filesystem->deleteDirectory("$themePath/app");
+        $this->filesystem->deleteDirectory("$themePath/lang");
+        $this->filesystem->delete("$themePath/composer.json");
+        $this->filesystem->delete("$themePath/README.md");
     }
 
     /**
