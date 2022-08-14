@@ -23,6 +23,7 @@ return [
         'files'        => [
             'assets/js/app'         => 'assets/js/app.js',
             'assets/sass/app'       => 'assets/sass/app.scss',
+            'assets/fresns.png'     => 'assets/fresns.png',
             'theme.json'            => 'theme.json',
         ],
         'gitkeep'      => true,
