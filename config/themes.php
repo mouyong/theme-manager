@@ -80,6 +80,7 @@ return [
             'scaffold/provider'     => 'app/Providers/$STUDLY_NAME$ServiceProvider.php',
             'assets/js/app'         => 'assets/js/app.js',
             'assets/sass/app'       => 'assets/sass/app.scss',
+            'assets/fresns.png'     => 'assets/fresns.png',
             'composer.json'         => 'composer.json',
             'theme.json'            => 'theme.json',
             'readme'                => 'README.md',
