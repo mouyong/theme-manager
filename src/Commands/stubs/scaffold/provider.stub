@@ -34,7 +34,12 @@ class $STUDLY_NAME$ServiceProvider extends BaseServiceProvider
      */
     public function registerViews()
     {
-        $this->loadViewsFrom(dirname(__DIR__, 2) . '/views', '$STUDLY_NAME$');
+        if (config('themes.multi')) {
+            $this->loadViewsFrom(dirname(__DIR__, 2) . '/views', '$STUDLY_NAME$');
+            return;
+        }
+
+        $this->loadViewsFrom(dirname(__DIR__, 2) . '/', '$STUDLY_NAME$');
     }
 
     /**
@@ -44,6 +49,11 @@ class $STUDLY_NAME$ServiceProvider extends BaseServiceProvider
      */
     public function registerTranslations()
     {
+        if (config('themes.multi')) {
+            $this->loadViewsFrom(dirname(__DIR__, 2) . '/lang', '$STUDLY_NAME$');
+            return;
+        }
+
         $this->loadTranslationsFrom(dirname(__DIR__, 2) . '/lang', '$STUDLY_NAME$');
     }
 

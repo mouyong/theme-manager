@@ -10,6 +10,7 @@ namespace Fresns\ThemeManager\Support\Config;
 
 class GeneratorPath
 {
+    private $inMulti;
     private $path;
     private $generate;
     private $namespace;
@@ -17,6 +18,7 @@ class GeneratorPath
     public function __construct($config)
     {
         if (is_array($config)) {
+            $this->inMulti = $config['in_multi'];
             $this->path = $config['path'];
             $this->generate = $config['generate'];
             $this->namespace = $config['namespace'] ?? $this->convertPathToNamespace($config['path']);
@@ -36,6 +38,11 @@ class GeneratorPath
     public function generate(): bool
     {
         return $this->generate;
+    }
+
+    public function inMulti(): bool
+    {
+        return $this->inMulti && config('themes.multi', false);
     }
 
     public function getNamespace()

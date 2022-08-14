@@ -7,6 +7,8 @@
  */
 
 return [
+    'multi' => env('THEME_MULTI', false),
+    
     'namespace' => $themesNamespace = 'Themes',
 
     // YOU COULD CUSTOM HERE
@@ -65,10 +67,10 @@ return [
         'assets' => public_path('assets/themes'),
 
         'generator' => [
-            'provider'          => ['path' => 'app/Providers', 'generate' => true],
-            'assets'            => ['path' => 'assets', 'generate' => true],
-            'lang'              => ['path' => 'lang', 'generate' => true],
-            'views'             => ['path' => 'views', 'generate' => true],
+            'provider'          => ['path' => 'app/Providers', 'generate' => true, 'in_multi' => true],
+            'assets'            => ['path' => 'assets', 'generate' => true, 'in_multi' => false],
+            'lang'              => ['path' => 'lang', 'generate' => true, 'in_multi' => true],
+            'views'             => ['path' => 'views', 'generate' => true, 'in_multi' => true],
         ],
     ],
 

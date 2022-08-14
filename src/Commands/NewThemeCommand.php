@@ -8,11 +8,13 @@
 
 namespace Fresns\ThemeManager\Commands;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Fresns\ThemeManager\Theme;
-use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
+use Fresns\ThemeManager\Support\Json;
+use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
 
 class NewThemeCommand extends Command
 {
@@ -66,6 +68,8 @@ class NewThemeCommand extends Command
         $this->generateFolders();
         $this->generateFiles();
 
+        $this->ensureInMulti();
+
         // composer dump-autoload
         @exec('composer dump-autoload');
 
@@ -91,6 +95,10 @@ class NewThemeCommand extends Command
             $folder = GenerateConfigReader::read($key);
 
             if ($folder->generate() === false) {
+                continue;
+            }
+
+            if ($folder->inMulti() === false) {
                 continue;
             }
 
@@ -126,6 +134,26 @@ class NewThemeCommand extends Command
                 $this->filesystem->delete("$dirName/.gitkeep");
             }
         }
+    }
+
+    public function ensureInMulti()
+    {
+        $inMulti = config('themes.multi', false);
+        if ($inMulti) {
+            return;
+        }
+
+        $themePath = $this->theme->getThemePath();
+
+        $this->filesystem->deleteDirectory("$themePath/app");
+
+        $composerJsonPath = $this->theme->getComposerJsonPath();
+
+        $composer = Json::make($composerJsonPath)->get();
+        
+        Arr::set($composer, 'extra.laravel.providers', []);
+
+        $this->filesystem->put($composerJsonPath, Json::make()->encode($composer));
     }
 
     /**

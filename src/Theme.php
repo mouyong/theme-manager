@@ -104,6 +104,13 @@ class Theme
         return "{$path}/assets";
     }
 
+    public function getComposerJsonPath(): ?string
+    {
+        $path = $this->getThemePath();
+
+        return "{$path}/composer.json";
+    }
+
     public function getThemeJsonPath(): ?string
     {
         $path = $this->getThemePath();
