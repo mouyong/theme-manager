@@ -68,8 +68,6 @@ class NewThemeCommand extends Command
         $this->generateFolders();
         $this->generateFiles();
 
-        $this->ensureInMulti();
-
         // composer dump-autoload
         @exec('composer dump-autoload');
 
@@ -134,29 +132,6 @@ class NewThemeCommand extends Command
                 $this->filesystem->delete("$dirName/.gitkeep");
             }
         }
-    }
-
-    public function ensureInMulti()
-    {
-        $inMulti = config('themes.multi', false);
-        if ($inMulti) {
-            return;
-        }
-
-        $composerJsonPath = $this->theme->getComposerJsonPath();
-
-        $composer = Json::make($composerJsonPath)->get();
-        
-        Arr::set($composer, 'extra.laravel.providers', []);
-
-        $this->filesystem->put($composerJsonPath, Json::make()->encode($composer));
-
-        $themePath = $this->theme->getThemePath();
-
-        $this->filesystem->deleteDirectory("$themePath/app");
-        $this->filesystem->deleteDirectory("$themePath/lang");
-        $this->filesystem->delete("$themePath/composer.json");
-        $this->filesystem->delete("$themePath/README.md");
     }
 
     /**
