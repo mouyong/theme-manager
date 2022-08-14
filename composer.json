@@ -2,7 +2,7 @@
     "name": "fresns/theme-manager",
     "type": "library",
     "description": "Fresns Theme Management",
-    "keywords": ["fresns", "laravel-themes", "laravel-extensions"],
+    "keywords": ["fresns", "laravel-themes", "laravel-views"],
     "license": "Apache-2.0",
     "homepage": "https://fresns.org",
     "support": {

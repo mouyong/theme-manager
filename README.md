@@ -18,8 +18,6 @@ To install through Composer, by run the following command:
 composer require fresns/theme-manager
 ```
 
-The theme will automatically register a service provider and alias.
-
 Optionally, publish the theme's configuration file by running:
 
 ```bash
@@ -28,7 +26,7 @@ php artisan vendor:publish --provider="Fresns\ThemeManager\Providers\ThemeServic
 
 ## Dev Docs
 
-[https://fresns.org/extensions/theme/](https://fresns.org/extensions/theme/)
+[https://fresns.cn/extensions/theme/](https://fresns.cn/extensions/theme/)
 
 ## Contributing
 
