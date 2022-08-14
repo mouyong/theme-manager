@@ -1,0 +1,59 @@
+<?php
+
+namespace $NAMESPACE$\Providers;
+
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+
+class $STUDLY_NAME$ServiceProvider extends BaseServiceProvider
+{
+    /**
+     * Boot the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerTranslations();
+        $this->registerViews();
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Register views.
+     *
+     * @return void
+     */
+    public function registerViews()
+    {
+        $this->loadViewsFrom(dirname(__DIR__, 2) . '/views', '$STUDLY_NAME$');
+    }
+
+    /**
+     * Register translations.
+     *
+     * @return void
+     */
+    public function registerTranslations()
+    {
+        $this->loadTranslationsFrom(dirname(__DIR__, 2) . '/lang', '$STUDLY_NAME$');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [];
+    }
+}
