@@ -9,11 +9,9 @@
 namespace Fresns\ThemeManager\Commands;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 use Fresns\ThemeManager\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Fresns\ThemeManager\Support\Json;
 use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
 
 class NewThemeCommand extends Command

@@ -8,9 +8,6 @@
 
 namespace Fresns\ThemeManager\Providers;
 
-use Fresns\ThemeManager\Theme;
-use Fresns\PluginManager\Support\Json;
-use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class ThemeServiceProvider extends ServiceProvider
