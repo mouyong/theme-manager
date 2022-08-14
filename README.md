@@ -15,6 +15,8 @@
 To install through Composer, by run the following command:
 
 ```bash
+composer config repositories.theme-manager vcs https://github.com/mouyong/theme-manager
+
 composer require fresns/theme-manager
 ```
 
