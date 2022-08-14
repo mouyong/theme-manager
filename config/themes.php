@@ -14,7 +14,11 @@ return [
         'assets' => public_path('assets/themes'),
 
         'generator' => [
-            'assets'            => ['path' => 'assets', 'generate' => true, 'in_multi' => false],
+            'assets'  => [
+                'path' => 'assets',
+                'generate' => true,
+                'in_multi' => false
+            ],
         ],
     ],
 

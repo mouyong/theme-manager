@@ -184,7 +184,7 @@ class Theme
         }
 
         try {
-            // 通过加载程序，验证程序能付被正确加载
+            // Verify that the program is loaded correctly by loading the program
             $theme = new Theme($themeName);
         } catch (\Throwable $e) {
             \info("{$themeName} registration failed, not a valid theme");
