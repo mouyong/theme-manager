@@ -1,6 +1,6 @@
 {
     "unikey": "$STUDLY_NAME$",
-    "name": "Laravel $STUDLY_NAME$ 主题框架",
+    "name": "$STUDLY_NAME$ Theme",
     "description": "$STUDLY_NAME$ theme made by fresns",
     "author": "Fresns",
     "authorLink": "https://fresns.org",
