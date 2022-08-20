@@ -71,7 +71,7 @@ class ThemeUnzipCommand extends Command
 
         $currentBackupCount = count($dirs);
 
-        $targetPath = sprintf('%s/%s-%s-%s', $backupDir, $themeUnikey, $currentBackupCount + 1, date('YmdHis'));
+        $targetPath = sprintf('%s/%s-%s-%s', $backupDir, $themeUnikey, date('YmdHis'), $currentBackupCount + 1);
 
         File::copyDirectory($themeDir, $targetPath);
         File::cleanDirectory($themeDir);
