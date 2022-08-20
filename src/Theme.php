@@ -47,6 +47,9 @@ class Theme
     public function getType(): ?int
     {
         $type = Json::make($this->getThemeJsonPath())->get('type');
+        if (!$type) {
+            return null;
+        }
 
         return $type;
     }
