@@ -44,6 +44,13 @@ class Theme
         return $this->getStudlyName();
     }
 
+    public function getType(): ?int
+    {
+        $type = Json::make($this->getThemeJsonPath())->get('type');
+
+        return $type;
+    }
+
     public function getLowerName(): string
     {
         return Str::lower($this->themeName);
