@@ -22,6 +22,12 @@ class ThemeUninstallCommand extends Command
     {
         try {
             $unikey = $this->argument('name');
+            $type = $theme->getType();
+
+            event('theme:uninstalling', [[
+                'unikey' => $unikey,
+                'type' => $type,
+            ]]);
 
             $this->call('theme:unpublish', [
                 'name' => $unikey,
@@ -32,6 +38,11 @@ class ThemeUninstallCommand extends Command
 
             // Triggers top-level computation of composer.json hash values and installation of extension themes
             @exec('composer update');
+
+            event('theme:uninstalled', [[
+                'unikey' => $unikey,
+                'type' => $type,
+            ]]);
 
             $this->info("Uninstalled: {$unikey}");
         } catch (\Throwable $e) {
