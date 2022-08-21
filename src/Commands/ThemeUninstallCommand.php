@@ -11,6 +11,7 @@ namespace Fresns\ThemeManager\Commands;
 use Fresns\ThemeManager\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Fresns\ThemeManager\Support\Process;
 
 class ThemeUninstallCommand extends Command
 {
@@ -42,7 +43,7 @@ class ThemeUninstallCommand extends Command
             File::deleteDirectory($theme->getThemePath());
 
             // Triggers top-level computation of composer.json hash values and installation of extension themes
-            @exec('composer update');
+            Process::run('composer update', $this->output);
 
             event('theme:uninstalled', [[
                 'unikey' => $unikey,
