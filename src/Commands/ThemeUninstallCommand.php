@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\File;
 
 class ThemeUninstallCommand extends Command
 {
-    protected $signature = 'theme:uninstall {name}';
+    protected $signature = 'theme:uninstall {name}
+        {--cleardata : Trigger clear theme data}';
 
     protected $description = 'Install the theme from the specified path';
 
@@ -26,6 +27,12 @@ class ThemeUninstallCommand extends Command
             event('theme:uninstalling', [[
                 'unikey' => $unikey,
             ]]);
+
+            if ($this->option('cleardata')) {
+                event('themes.cleandata', [[
+                    'unikey' => $unikey,
+                ]]);
+            }
 
             $this->call('theme:unpublish', [
                 'name' => $unikey,
