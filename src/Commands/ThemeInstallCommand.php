@@ -46,9 +46,11 @@ class ThemeInstallCommand extends Command
             ]);
 
             // Triggers top-level computation of composer.json hash values and installation of extension packages
-            $isOk = @exec('composer update');
-            if ($isOk === false) {
-                throw new \RuntimeException('Failed to install packages');
+            chdir(base_path());
+            @exec('composer update', $output, $returnCode);
+            if ($returnCode) {
+                $this->error('Failed to install packages, calc composer.json hash value fail');
+                return 0;
             }
 
             event('theme:installed', [[
