@@ -54,7 +54,7 @@ class ThemeUnzipCommand extends Command
         }
 
         File::copyDirectory($tmpDirPath, $themeDir);
-        File::cleanDirectory($tmpDirPath);
+        File::deleteDirectory($tmpDirPath);
 
         Cache::put('install:theme_unikey', $themeUnikey, now()->addMinutes(5));
 
