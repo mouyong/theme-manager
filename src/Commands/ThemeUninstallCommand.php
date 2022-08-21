@@ -22,11 +22,9 @@ class ThemeUninstallCommand extends Command
     {
         try {
             $unikey = $this->argument('name');
-            $type = $theme->getType();
 
             event('theme:uninstalling', [[
                 'unikey' => $unikey,
-                'type' => $type,
             ]]);
 
             $this->call('theme:unpublish', [
@@ -41,7 +39,6 @@ class ThemeUninstallCommand extends Command
 
             event('theme:uninstalled', [[
                 'unikey' => $unikey,
-                'type' => $type,
             ]]);
 
             $this->info("Uninstalled: {$unikey}");

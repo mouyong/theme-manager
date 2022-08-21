@@ -37,11 +37,8 @@ class ThemeInstallCommand extends Command
             $theme = new Theme($unikey);
             $theme->manualAddNamespace();
 
-            $type = $theme->getType();
-
             event('theme:installing', [[
                 'unikey' => $unikey,
-                'type' => $type,
             ]]);
 
             $this->call('theme:publish', [
@@ -56,7 +53,6 @@ class ThemeInstallCommand extends Command
 
             event('theme:installed', [[
                 'unikey' => $unikey,
-                'type' => $type,
             ]]);
 
             $this->info("Installed: {$theme->getStudlyName()}");
