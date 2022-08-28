@@ -8,8 +8,10 @@
 
 namespace Fresns\ThemeManager\Commands;
 
-use Fresns\ThemeManager\Support\Process;
 use Fresns\ThemeManager\Theme;
+use Fresns\ThemeManager\Support\Json;
+use Fresns\ThemeManager\Support\Process;
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
@@ -52,13 +54,21 @@ class ThemeInstallCommand extends Command
                 'name' => $theme->getStudlyName(),
             ]);
 
-            // Triggers top-level computation of composer.json hash values and installation of extension packages
-            // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
-            $process = Process::run('composer update', $this->output);
-            if (! $process->isSuccessful()) {
-                $this->error('Failed to install packages, calc composer.json hash value fail');
+            if (file_exists($theme->getComposerJsonPath())) {
+                $composerJson = Json::make($theme->getComposerJsonPath())->decode();
+                $require = Arr::get($composerJson, 'require', []);
+                $requireDev = Arr::get($composerJson, 'require-dev', []);
+    
+                // Triggers top-level computation of composer.json hash values and installation of extension packages
+                // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
+                if (count($require) || count($requireDev)) {
+                    $process = Process::run('composer update', $this->output);
+                    if (! $process->isSuccessful()) {
+                        $this->error('Failed to install packages, calc composer.json hash value fail');
 
-                return 0;
+                        return 0;
+                    }
+                }
             }
 
             event('theme:installed', [[
