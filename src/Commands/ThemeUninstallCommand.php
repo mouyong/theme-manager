@@ -8,8 +8,10 @@
 
 namespace Fresns\ThemeManager\Commands;
 
-use Fresns\ThemeManager\Support\Process;
 use Fresns\ThemeManager\Theme;
+use Fresns\ThemeManager\Support\Json;
+use Fresns\ThemeManager\Support\Process;
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -40,10 +42,22 @@ class ThemeUninstallCommand extends Command
             ]);
 
             $theme = new Theme($unikey);
+
+            if (file_exists($theme->getComposerJsonPath())) {
+                $composerJson = Json::make($theme->getComposerJsonPath())->decode();
+                $require = Arr::get($composerJson, 'require', []);
+                $requireDev = Arr::get($composerJson, 'require-dev', []);
+            }
+
             File::deleteDirectory($theme->getThemePath());
 
-            // Triggers top-level computation of composer.json hash values and installation of extension themes
-            Process::run('composer update', $this->output);
+            // Triggers top-level computation of composer.json hash values and installation of extension packages
+            // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
+            if (file_exists($theme->getComposerJsonPath())) {
+                if (count($require) || count($requireDev)) {
+                    Process::run('composer update', $this->output);
+                }
+            }
 
             event('theme:uninstalled', [[
                 'unikey' => $unikey,
