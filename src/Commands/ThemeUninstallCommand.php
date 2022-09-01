@@ -43,7 +43,21 @@ class ThemeUninstallCommand extends Command
 
             $theme = new Theme($unikey);
 
+            if (file_exists($theme->getComposerJsonPath())) {
+                $composerJson = Json::make($theme->getComposerJsonPath())->get();
+                $require = Arr::get($composerJson, 'require', []);
+                $requireDev = Arr::get($composerJson, 'require-dev', []);
+            }
+
             File::deleteDirectory($theme->getThemePath());
+
+            // Triggers top-level computation of composer.json hash values and installation of extension packages
+            // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
+            if (file_exists($theme->getComposerJsonPath())) {
+                if (count($require) || count($requireDev)) {
+                    Process::run('composer update', $this->output);
+                }
+            }
 
             event('theme:uninstalled', [[
                 'unikey' => $unikey,
