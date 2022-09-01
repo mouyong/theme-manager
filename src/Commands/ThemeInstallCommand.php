@@ -27,23 +27,28 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
-            if (str_contains($path, config('themes.paths.plugins'))) {
-                $this->error('Failed to install themes from theme directory');
+            if (!str_contains($path, config('plugins.paths.plugins'))) {
+                $this->call('theme:unzip', [
+                    'path' => $path,
+                ]);
 
-                return 0;
+                $unikey = Cache::pull('install:plugin_unikey');
+            } else {
+                $unikey = dirname($path);
             }
 
-            $this->call('theme:unzip', [
-                'path' => $path,
-            ]);
-
-            $unikey = Cache::pull('install:theme_unikey');
             if (! $unikey) {
                 info('Failed to unzip, couldn\'t get the theme unikey');
 
                 return 0;
             }
+
             $theme = new Theme($unikey);
+            if (!$theme->isValidTheme()) {
+                $this->error("theme is invalid");
+                return 0;
+            }
+
             $theme->manualAddNamespace();
 
             event('theme:installing', [[
