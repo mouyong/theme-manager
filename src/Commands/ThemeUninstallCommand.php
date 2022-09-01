@@ -44,7 +44,7 @@ class ThemeUninstallCommand extends Command
             $theme = new Theme($unikey);
 
             if (file_exists($theme->getComposerJsonPath())) {
-                $composerJson = Json::make($theme->getComposerJsonPath())->decode();
+                $composerJson = Json::make($theme->getComposerJsonPath())->get();
                 $require = Arr::get($composerJson, 'require', []);
                 $requireDev = Arr::get($composerJson, 'require-dev', []);
             }
