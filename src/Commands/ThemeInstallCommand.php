@@ -59,23 +59,6 @@ class ThemeInstallCommand extends Command
                 'name' => $theme->getStudlyName(),
             ]);
 
-            if (file_exists($theme->getComposerJsonPath())) {
-                $composerJson = Json::make($theme->getComposerJsonPath())->get();
-                $require = Arr::get($composerJson, 'require', []);
-                $requireDev = Arr::get($composerJson, 'require-dev', []);
-    
-                // Triggers top-level computation of composer.json hash values and installation of extension packages
-                // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
-                if (count($require) || count($requireDev)) {
-                    $process = Process::run('composer update', $this->output);
-                    if (! $process->isSuccessful()) {
-                        $this->error('Failed to install packages, calc composer.json hash value fail');
-
-                        return 0;
-                    }
-                }
-            }
-
             event('theme:installed', [[
                 'unikey' => $unikey,
             ]]);
