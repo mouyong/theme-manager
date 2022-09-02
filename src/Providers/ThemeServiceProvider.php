@@ -93,10 +93,16 @@ class ThemeServiceProvider extends ServiceProvider
         try {
             $content = Json::make()->encode($composer);
 
-            file_put_contents($composerPath, $content);
+            $fp = fopen($composerPath, 'r+');
+            if (flock($fp, LOCK_EX | LOCK_NB)) {
+                fwrite($fp, $content);
+                flock($fp, LOCK_UN);
+            }
         } catch (\Throwable $e) {
             $message = str_replace(['file_put_contents('.base_path().'/', ')'], '', $e->getMessage());
             throw new \RuntimeException('cannot set merge-plugin to '.$message);
+        } finally {
+            fclose($fp);
         }
     }
 }
